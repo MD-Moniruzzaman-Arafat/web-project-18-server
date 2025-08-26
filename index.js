@@ -24,6 +24,15 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect()
+
+    const database = client.db('Tourism')
+    const spotsCollection = database.collection('spots')
+
+    app.get('/TouristsSpot', async (req, res) => {
+      const spots = await spotsCollection.find().toArray()
+      res.json(spots)
+    })
+
     // Send a ping to confirm a successful connection
     await client.db('admin').command({ ping: 1 })
     console.log(
@@ -31,7 +40,7 @@ async function run() {
     )
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close()
+    // await client.close()
   }
 }
 run().catch(console.dir)
