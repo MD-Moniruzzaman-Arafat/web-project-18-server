@@ -26,6 +26,7 @@ async function run() {
     await client.connect()
 
     const database = client.db('Tourism')
+    const countrys = database.collection('countrys')
     const spotsCollection = database.collection('spots')
 
     // Create a new tourist spot
@@ -33,6 +34,12 @@ async function run() {
       const newSpot = req.body
       const result = await spotsCollection.insertOne(newSpot)
       res.status(201).json(result)
+    })
+
+    // Get all countries
+    app.get('/countrys', async (req, res) => {
+      const allCountrys = await countrys.find().toArray()
+      res.json(allCountrys)
     })
 
     // Get all tourist spots
