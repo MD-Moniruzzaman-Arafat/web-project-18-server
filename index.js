@@ -28,9 +28,39 @@ async function run() {
     const database = client.db('Tourism')
     const spotsCollection = database.collection('spots')
 
+    // Create a new tourist spot
+    app.post('/TouristsSpot', async (req, res) => {
+      const newSpot = req.body
+      const result = await spotsCollection.insertOne(newSpot)
+      res.status(201).json(result)
+    })
+
+    // Get all tourist spots
     app.get('/TouristsSpot', async (req, res) => {
       const spots = await spotsCollection.find().toArray()
       res.json(spots)
+    })
+
+    // Get a single tourist spot by ID
+    app.get('/TouristsSpot/:id', async (req, res) => {
+      const id = req.params.id
+      const spot = await spotsCollection.findOne({ _id: new ObjectId(id) })
+      if (spot) {
+        res.json(spot)
+      } else {
+        res.status(404).json({ message: 'Spot not found' })
+      }
+    })
+
+    // Delete a tourist spot by ID
+    app.delete('/TouristsSpot/:id', async (req, res) => {
+      const id = req.params.id
+      const result = await spotsCollection.deleteOne({ _id: new ObjectId(id) })
+      if (result.deletedCount > 0) {
+        res.json({ message: 'Spot deleted successfully' })
+      } else {
+        res.status(404).json({ message: 'Spot not found' })
+      }
     })
 
     // Send a ping to confirm a successful connection
