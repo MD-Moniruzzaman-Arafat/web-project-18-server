@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { MongoClient, ServerApiVersion } = require('mongodb')
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 require('dotenv').config()
 
 const app = express()
@@ -172,12 +172,12 @@ async function run() {
       },
     ]
 
-    // insert many
-    app.post('/TouristsSpot', async (req, res) => {
-      // const newSpots = req.body
-      const result = await spotsCollection.insertMany(data)
-      res.status(201).json(result)
-    })
+    // // insert many
+    // app.post('/TouristsSpot', async (req, res) => {
+    //   // const newSpots = req.body
+    //   const result = await spotsCollection.insertMany(data)
+    //   res.status(201).json(result)
+    // })
 
     // Create a new tourist spot
     app.post('/TouristsSpot', async (req, res) => {
